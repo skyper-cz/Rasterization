@@ -42,11 +42,18 @@ public class ScreenManager {
             xyArray[i] = getCoords;
             i++;
         }
-        float a =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
-        float b = xyArray[0].getY() - a * coordinate.getX();
+        float a1 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
+        float b1 = xyArray[0].getY() - a1 * coordinate.getX();
 
-        if (coordinate.getY() <= a * coordinate.getX() + b && ) {
+        float a2 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
+        float b2 = xyArray[0].getY() - a2 * coordinate.getX();
+
+        float a3 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
+        float b3 = xyArray[0].getY() - a3 * coordinate.getX();
+
+        if (coordinate.getY() <= a1 * coordinate.getX() + b1 && coordinate.getY() <= a2 * coordinate.getX() + b2 && coordinate.getY() <= a3 * coordinate.getX() + b3) {
             return true;
+
         }
         return false;
 
