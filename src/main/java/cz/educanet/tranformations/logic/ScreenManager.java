@@ -21,18 +21,11 @@ public class ScreenManager {
         return selectedPoints.contains(coordinate);
     }
 
-    private double rovnice(Coordinate x, Coordinate y) {
-        double a = ((double) y.getY() - x.getY()) / (y.getX() - x.getX());
-        double result = (double) x.getY() - (a * x.getX());
-        return result;
-    }
-
-
     public Set<Coordinate> getSelectedPoints() {
         return selectedPoints;
     }
 
-    public boolean isFilledIn(Coordinate coordinate) { // TODO: Implement this
+    public boolean isFilledIn(Coordinate coordinate) {
         if(getSelectedPoints().size() < 3) {
             return false;
         }
@@ -42,20 +35,95 @@ public class ScreenManager {
             xyArray[i] = getCoords;
             i++;
         }
-        float a1 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
-        float b1 = xyArray[0].getY() - a1 * coordinate.getX();
 
-        float a2 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
-        float b2 = xyArray[0].getY() - a2 * coordinate.getX();
 
-        float a3 =(float)(xyArray[1].getY() - xyArray[0].getY() / xyArray[1].getX() - xyArray[0].getX());
-        float b3 = xyArray[0].getY() - a3 * coordinate.getX();
+        float a1 = (float)(xyArray[1].getY() - xyArray[0].getY()) / (xyArray[1].getX() - xyArray[0].getX());
+        float b1 = xyArray[0].getY() - a1 * xyArray[0].getX();
 
-        if (coordinate.getY() <= a1 * coordinate.getX() + b1 && coordinate.getY() <= a2 * coordinate.getX() + b2 && coordinate.getY() <= a3 * coordinate.getX() + b3) {
-            return true;
+        float a2= (float)(xyArray[2].getY() - xyArray[1].getY()) / (xyArray[2].getX() - xyArray[1].getX());
+        float b2 = xyArray[1].getY() - a2 * xyArray[1].getX();
+
+        float a3 = (float)(xyArray[0].getY() - xyArray[2].getY()) / (xyArray[0].getX() - xyArray[2].getX());
+        float b3 = xyArray[2].getY() - a3 * xyArray[2].getX();
+
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+
+        if (xyArray[2].getY() > a1 * xyArray[2].getX() + b1) {
+            one = true;
+        } else if (xyArray[2].getY() < a1 * xyArray[2].getX() + b1) {
+            one = false;
+        }
+
+        if (xyArray[0].getY() > a2 * xyArray[0].getX() + b2) {
+            two = true;
+        } else if (xyArray[0].getY() < a2 * xyArray[0].getX() + b2) {
+            two = false;
+        }
+
+        if (xyArray[1].getY() > a3 * xyArray[1].getX() + b3) {
+            three = true;
+        } else if (xyArray[1].getY() < a3 * xyArray[1].getX() + b3) {
+            three = false;
+        }
+
+        if (one && two && three) {
+            if (coordinate.getY() >= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() >= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() >= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+        } else if (one && two && !three) {
+            if (coordinate.getY() >= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() >= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() <= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (one && !two && three) {
+            if (coordinate.getY() >= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() <= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() >= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (!one && two && three) {
+            if (coordinate.getY() <= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() >= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() >= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (!one && !two && three) {
+            if (coordinate.getY() <= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() <= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() >= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (!one && two && !three) {
+            if (coordinate.getY() <= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() >= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() <= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (one && !two && !three) {
+            if (coordinate.getY() >= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() <= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() <= a3 * coordinate.getX() + b3) {
+                return true;
+            }
+
+        } else if (!one && !two && !three) {
+            if (coordinate.getY() <= a1 * coordinate.getX() + b1 &&
+                    coordinate.getY() <= a2 * coordinate.getX() + b2 &&
+                    coordinate.getY() <= a3 * coordinate.getX() + b3) {
+                return true;
+            }
 
         }
         return false;
-
     }
 }
